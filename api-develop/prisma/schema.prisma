@@ -1,0 +1,62 @@
+// schema.prisma
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+enum Status {
+  ativado
+  desativado
+}
+
+model User {
+  id         Int       @id @default(autoincrement())
+  name       String
+  email      String    @unique
+  password   String
+  salt       String
+  created_at DateTime  @default(now())
+
+  locations  Location[]
+}
+
+model Location {
+  id              Int       @id @default(autoincrement())
+  name            String
+  address         String
+  max_people      Int
+  current_people  Int       @default(0)
+  created_at      DateTime  @default(now())
+  logo_image      String?
+  description     String? 
+  google_maps_url String?
+
+  userId Int
+  user   User       @relation(fields: [userId], references: [id])
+
+  gates  Gate[]
+}
+
+model Gate {
+  id          Int       @id @default(autoincrement())
+  location_id Int
+  tag         String    @unique
+  status      Status    @default(ativado)
+  created_at  DateTime  @default(now())
+
+  location    Location  @relation(fields: [location_id], references: [id])
+  histories   History[]
+}
+
+model History {
+  id         Int      @id @default(autoincrement())
+  gate_id    Int
+  operation  String
+  created_at DateTime @default(now())
+
+  gate Gate @relation(fields: [gate_id], references: [id])
+}
