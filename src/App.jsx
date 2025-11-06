@@ -1,14 +1,15 @@
-import Register from './Pages/Register'
-
+import { BrowserRouter as Router } from 'react-router-dom';
+import { AuthProvider } from './context/AuthContext';
+import AppRouter from './router';
 
 function App() {
-
   return (
-    <>
-      <h1 className="bg-red-500 text-white">hello</h1>
-      <Register/>
-    </>
-  )
+    <Router>
+      <AuthProvider>
+        <AppRouter />
+      </AuthProvider>
+    </Router>
+  );
 }
 
-export default App
+export default App;
