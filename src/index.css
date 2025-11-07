@@ -1,1 +1,13 @@
 @import "tailwindcss";
+
+@theme {
+  --color-bg: #151B23;
+  --color-bg-secondary: #212830;
+  --color-bg-secondary-hover: #2F3742;
+  --color-bg-tertiary: #262C36;
+  --color-text-primary: #D1D7E0;
+  --color-text-secondary: #9198A1;
+  --color-line: #3D444D;
+  --color-purple-primary: #7545B0;
+  --color-purple-secondary: #6B3FA2;
+}
