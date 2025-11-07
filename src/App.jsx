@@ -8,9 +8,11 @@ import Layout from "./pages/global/Layout"
 import { ToastContainer } from "react-toastify"
 import "react-toastify/dist/ReactToastify.css"
 import LocaleCreate from "./pages/locales/LocaleCreate"
-import AllSecrets from "./pages/secrets/AllSecrets"
+import LocaleEdit from "./pages/locales/LocaleEdit"
 import LocaleDetails from "./pages/locales/LocaleDetails"
 import GateCreate from "./pages/gates/GateCreate"
+import DashboardLayout from "./pages/global/DashboardLayout"
+import GateList from "./pages/gates/GateList"
 
 const RootRedirect = () => {
   const { isAuthenticated, loading } = useAuth()
@@ -50,7 +52,7 @@ function App() {
               path="/dashboard"
               element={
                 <ProtectedRoute>
-                  <AllSecrets />
+                  <DashboardLayout />
                 </ProtectedRoute>
               }
             />
@@ -59,6 +61,14 @@ function App() {
               element={
                 <ProtectedRoute>
                   <LocaleCreate />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/locale/edit/:id"
+              element={
+                <ProtectedRoute>
+                  <LocaleEdit />
                 </ProtectedRoute>
               }
             />
@@ -75,6 +85,14 @@ function App() {
               element={
                 <ProtectedRoute>
                   <GateCreate />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/locale/gates/:id"
+              element={
+                <ProtectedRoute>
+                  <GateList />
                 </ProtectedRoute>
               }
             />

@@ -1,5 +1,4 @@
 import Layout from "./Layout"
-import Search from "../../components/search"
 import List from "../locales/List"
 
 function DashboardLayout() {

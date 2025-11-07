@@ -15,6 +15,7 @@ function GateCreate() {
 
     // Pega o location_id que foi enviado via navigate
     const locationId = location.state?.locationId
+    console.log(locationId)
 
     // Se não tiver location_id, redireciona
     if (!locationId) {

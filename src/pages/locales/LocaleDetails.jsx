@@ -87,7 +87,7 @@ function LocaleDetails() {
           <div className='flex items-center gap-2'>
             <button
               onClick={() => navigate(-1)}
-              className="hover:bg-bg-secondary p-2 rounded-lg transition-colors"
+              className="hover:bg-bg-secondary p-2 rounded-lg transition-colors hover:cursor-pointer"
             >
               <ArrowLeft size={20} className="text-text-primary" />
             </button>
@@ -96,9 +96,21 @@ function LocaleDetails() {
           <div className='flex gap-2'>
             <button
               className="bg-bg-secondary border border-line hover:bg-bg-secondary-hover px-4 py-2 rounded-lg text-purple-primary transition-all cursor-pointer font-medium"
+              onClick={() => navigate(`/locale/edit/${location.id}`)}
+            >
+              Editar
+            </button>
+            <button
+              className="bg-bg-secondary border border-line hover:bg-bg-secondary-hover px-4 py-2 rounded-lg text-purple-primary transition-all cursor-pointer font-medium"
               onClick={() => navigate("/gate/create", { state: { locationId: location.id } })}
             >
               Cadastrar Catraca
+            </button>
+            <button
+              className="bg-bg-secondary border border-line hover:bg-bg-secondary-hover px-4 py-2 rounded-lg text-purple-primary transition-all cursor-pointer font-medium"
+              onClick={() => navigate(`/locale/gates/${id}`)}
+            >
+              Ver Catracas
             </button>
           </div>
         </div>
