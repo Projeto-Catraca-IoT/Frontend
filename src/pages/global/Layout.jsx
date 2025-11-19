@@ -13,8 +13,8 @@ function Layout({ children }) {
 
     return (
         <div className="min-h-screen bg-bg text-text-secondary flex flex-col">
-            <div className="flex justify-between items-center mx-10 mt-7">
-                <h1 onClick={() => navigate('/')} className="cursor-pointer text-2xl font-bold text-text-primary">Smart Gate</h1>
+            <div className="flex justify-between items-center mx-10 mt-7 bg-purple-secondary p-2 rounded-lg">
+                <h1 onClick={() => navigate('/')} className="cursor-pointer text-2xl font-bold text-green-logo"><span className="text-text-primary">Smart</span>Gate</h1>
                 <button
                     onClick={handleLogout}
                     className="bg-bg-secondary border border-line px-4 py-2 rounded-lg text-text-primary hover:bg-bg-secondary-hover cursor-pointer transition-all font-medium"
