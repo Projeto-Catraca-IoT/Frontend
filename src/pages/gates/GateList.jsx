@@ -4,7 +4,7 @@ import { useParams, useNavigate, useLocation } from 'react-router-dom'
 import { useAuth } from "../../contexts/AuthContext"
 import Layout from '../global/Layout'
 import api from "../../services/api"
-import { ArrowLeft, Plus } from "lucide-react"
+import { ArrowLeft } from "lucide-react"
 
 function GateList() {
     const { id: routeId } = useParams() // ID da URL (ex: /locale/gates/:id)
@@ -81,7 +81,7 @@ function GateList() {
                 <div className="flex items-center justify-between w-full">
                     <div className='flex items-center gap-2'>
                         <button
-                            onClick={() => navigate(`/location/${id}`)}
+                            onClick={() => navigate(`/locale/${id}`)}
                             className="hover:bg-bg-secondary p-2 rounded-lg transition-colors hover:cursor-pointer"
                         >
                             <ArrowLeft size={20} className="text-text-primary" />

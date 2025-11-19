@@ -6,7 +6,7 @@ import Layout from '../global/Layout'
 import api from "../../services/api"
 import dayjs from "dayjs"
 import "dayjs/locale/pt-br"
-import { ArrowLeft, MapPin, Users, ExternalLink } from "lucide-react"
+import { ArrowLeft, MapPin, Users, ExternalLink, History } from "lucide-react"
 
 function LocaleDetails() {
   const { id } = useParams()
@@ -14,6 +14,8 @@ function LocaleDetails() {
   const navigate = useNavigate()
   const [location, setLocation] = useState(null)
   const [loading, setLoading] = useState(true)
+  const [logs, setLogs] = useState([])
+  const [loadingLogs, setLoadingLogs] = useState(false)
 
   const loadLocation = async () => {
     try {
@@ -33,7 +35,9 @@ function LocaleDetails() {
       })
 
       setLocation(data.data)
-      console.log('Location data:', data.data)
+
+      // Carrega os logs após carregar o local
+      loadLogs(token)
     } catch (error) {
       if (error.response?.status === 401) {
         logout()
@@ -43,6 +47,29 @@ function LocaleDetails() {
       }
     } finally {
       setLoading(false)
+    }
+  }
+
+  const loadLogs = async (token) => {
+    try {
+      setLoadingLogs(true)
+
+      const { data } = await api.get(`/locations/${id}/history`, {
+        headers: {
+          Authorization: `Bearer ${token || getToken()}`
+        }
+      })
+
+      if (data && data.data) {
+        setLogs(data.data)
+      } else {
+        setLogs([])
+      }
+    } catch (error) {
+      // Não mostra erro se não houver logs
+      setLogs([])
+    } finally {
+      setLoadingLogs(false)
     }
   }
 
@@ -87,18 +114,18 @@ function LocaleDetails() {
           <div className='flex items-center gap-2'>
             <button
               onClick={() => navigate(-1)}
-              className="hover:bg-bg-secondary p-2 rounded-lg transition-colors hover:cursor-pointer"
+              className="hover:bg-bg-secondary p-2 rounded-lg transition-colors"
             >
               <ArrowLeft size={20} className="text-text-primary" />
             </button>
             <h2 className="text-2xl font-bold text-text-primary">Detalhes do Local</h2>
           </div>
-          <div className='flex gap-2'>
+          <div className="flex gap-2">
             <button
               className="bg-bg-secondary border border-line hover:bg-bg-secondary-hover px-4 py-2 rounded-lg text-purple-primary transition-all cursor-pointer font-medium"
               onClick={() => navigate(`/locale/edit/${location.id}`)}
             >
-              Editar
+              Editar Local
             </button>
             <button
               className="bg-bg-secondary border border-line hover:bg-bg-secondary-hover px-4 py-2 rounded-lg text-purple-primary transition-all cursor-pointer font-medium"
@@ -185,6 +212,15 @@ function LocaleDetails() {
                   }}
                 />
               </div>
+
+              <p className="text-text-secondary text-xs mt-1">
+                {location.current_people === 0
+                  ? 'Local vazio'
+                  : location.current_people >= location.max_people
+                    ? 'Capacidade máxima atingida'
+                    : `${location.max_people - location.current_people} vagas disponíveis`
+                }
+              </p>
             </div>
 
             {/* Descrição */}
@@ -222,8 +258,80 @@ function LocaleDetails() {
           </div>
         </div>
 
+        {/* Seção de Movimentações */}
+        <div className="bg-bg-secondary border border-line rounded-lg p-6 w-full">
+          <div className="flex items-center gap-2 mb-4">
+            <History size={20} className="text-text-primary" />
+            <h3 className="text-xl font-bold text-text-primary">Histórico de Movimentações</h3>
+          </div>
+
+          {loadingLogs ? (
+            <div className="flex justify-center items-center py-8">
+              <span className="text-text-secondary">Carregando histórico...</span>
+            </div>
+          ) : logs.length > 0 ? (
+            <div className="overflow-x-auto">
+              <table className="w-full">
+                <thead>
+                  <tr className="border-b border-line">
+                    <th className="text-left text-text-secondary text-sm font-medium py-3 px-2">
+                      Catraca
+                    </th>
+                    <th className="text-left text-text-secondary text-sm font-medium py-3 px-2">
+                      Operação
+                    </th>
+                    <th className="text-right text-text-secondary text-sm font-medium py-3 px-2">
+                      Data e Hora
+                    </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {logs.map((log) => (
+                    <tr
+                      key={log.id}
+                      className="border-b border-line hover:bg-bg-secondary-hover transition-colors"
+                    >
+                      <td className="py-3 px-2">
+                        <span className="text-text-primary text-sm">
+                          Catraca #{log.gate_id}
+                        </span>
+                      </td>
+                      <td className="py-3 px-2">
+                        <span
+                          className={`px-3 py-1 rounded-full text-xs font-semibold ${log.operation === 'entrada'
+                            ? 'bg-blue-500/20 text-blue-500'
+                            : log.operation === 'saida'
+                              ? 'bg-orange-500/20 text-orange-500'
+                              : 'bg-gray-500/20 text-gray-500'
+                            }`}
+                        >
+                          {log.operation === 'entrada' ? 'Entrada' : log.operation === 'saida' ? 'Saída' : log.operation}
+                        </span>
+                      </td>
+                      <td className="py-3 px-2 text-right">
+                        <div className="flex flex-col items-end">
+                          <span className="text-text-primary text-sm font-medium">
+                            {dayjs(log.created_at).format("DD/MM/YYYY HH:mm")}
+                          </span>
+                        </div>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          ) : (
+            <div className="flex flex-col items-center justify-center py-8">
+              <p className="text-text-secondary mb-2">Nenhuma movimentação registrada</p>
+              <p className="text-text-secondary text-sm">
+                As entradas e saídas aparecerão aqui
+              </p>
+            </div>
+          )}
+        </div>
+
       </div>
-    </Layout>
+    </Layout >
   )
 }
 

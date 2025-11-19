@@ -6,7 +6,7 @@ import api from "../../services/api"
 import Layout from "../global/Layout"
 import { Trash2 } from "lucide-react"
 
-function LocaleEdit() {
+function GateEdit() {
     const { id } = useParams()
     const { logout, getToken } = useAuth()
     const navigate = useNavigate()
@@ -14,14 +14,12 @@ function LocaleEdit() {
     const [submitting, setSubmitting] = useState(false)
     const [showDeleteModal, setShowDeleteModal] = useState(false)
     const [formData, setFormData] = useState({
-        name: '',
-        address: '',
-        max_people: '',
-        description: '',
-        google_maps_url: ''
+        tag: '',
+        status: 'ativado',
+        location_id: null
     })
 
-    const loadLocation = async () => {
+    const loadGate = async () => {
         try {
             setLoading(true)
             const token = getToken()
@@ -32,7 +30,7 @@ function LocaleEdit() {
                 return
             }
 
-            const { data } = await api.get(`/locations/${id}`, {
+            const { data } = await api.get(`/gates/${id}`, {
                 headers: {
                     Authorization: `Bearer ${token}`
                 }
@@ -40,19 +38,17 @@ function LocaleEdit() {
 
             // Preenche o formulário com os dados existentes
             setFormData({
-                name: data.data.name || '',
-                address: data.data.address || '',
-                max_people: data.data.max_people || '',
-                description: data.data.description || '',
-                google_maps_url: data.data.google_maps_url || ''
+                tag: data.data.tag || '',
+                status: data.data.status || 'ativado',
+                location_id: data.data.location_id
             })
         } catch (error) {
             if (error.response?.status === 401) {
                 logout()
                 navigate('/login')
             } else {
-                toast.error(error.response?.data?.message || 'Erro ao carregar local')
-                navigate(`/location/${id}`)
+                toast.error(error.response?.data?.message || 'Erro ao carregar catraca')
+                navigate(-1)
             }
         } finally {
             setLoading(false)
@@ -61,7 +57,7 @@ function LocaleEdit() {
 
     useEffect(() => {
         if (id) {
-            loadLocation()
+            loadGate()
         }
     }, [id])
 
@@ -86,13 +82,10 @@ function LocaleEdit() {
                 return
             }
 
-            const { data } = await api.put(`/locations/${id}`,
+            const { data } = await api.put(`/gates/${id}`,
                 {
-                    name: formData.name,
-                    address: formData.address,
-                    max_people: parseInt(formData.max_people),
-                    description: formData.description || undefined,
-                    google_maps_url: formData.google_maps_url || undefined
+                    tag: formData.tag,
+                    status: formData.status
                 },
                 {
                     headers: {
@@ -101,8 +94,8 @@ function LocaleEdit() {
                 }
             )
 
-            toast.success(data.message || "Local atualizado com sucesso")
-            navigate(`/location/${id}`)
+            toast.success(data.message || "Catraca atualizada com sucesso")
+            navigate(`/gate/${id}`)
         } catch (error) {
             if (error.response?.status === 401) {
                 logout()
@@ -130,14 +123,14 @@ function LocaleEdit() {
                 return
             }
 
-            const { data } = await api.delete(`/locations/${id}`, {
+            const { data } = await api.delete(`/gates/${id}`, {
                 headers: {
                     Authorization: `Bearer ${token}`
                 }
             })
 
-            toast.success(data.message || "Local excluído com sucesso")
-            navigate('/')
+            toast.success(data.message || "Catraca excluída com sucesso")
+            navigate(`/locale/gates/${formData.location_id}`)
         } catch (error) {
             if (error.response?.status === 401) {
                 logout()
@@ -145,7 +138,7 @@ function LocaleEdit() {
             } else if (error.response) {
                 toast.error(error.response.data.message)
             } else {
-                toast.error('Erro ao excluir local')
+                toast.error('Erro ao excluir catraca')
             }
         } finally {
             setSubmitting(false)
@@ -169,81 +162,37 @@ function LocaleEdit() {
                 <div className="max-w-md w-full mx-4">
                     <div className="bg-bg-secondary p-8 rounded-lg border border-line">
                         <h2 className="text-2xl font-bold mb-4 text-center text-text-primary">
-                            Editar Local
+                            Editar Catraca
                         </h2>
                         <form className="flex flex-col gap-4" onSubmit={handleSubmit}>
                             <div>
                                 <label className="text-text-secondary text-sm font-medium mb-1 block">
-                                    Nome do local
+                                    Identificador da Catraca
                                 </label>
                                 <input
-                                    name="name"
-                                    value={formData.name}
+                                    name="tag"
+                                    value={formData.tag}
                                     onChange={handleChange}
                                     className="w-full px-3 py-2 bg-bg-secondary text-text-primary border border-line rounded-md focus:outline-none focus:border-purple-secondary"
                                     type="text"
-                                    placeholder="Nome do local"
+                                    placeholder="Ex: catraca_01"
                                     required
                                 />
                             </div>
 
                             <div>
                                 <label className="text-text-secondary text-sm font-medium mb-1 block">
-                                    Endereço
+                                    Status
                                 </label>
-                                <input
-                                    name="address"
-                                    value={formData.address}
+                                <select
+                                    name="status"
+                                    value={formData.status}
                                     onChange={handleChange}
                                     className="w-full px-3 py-2 bg-bg-secondary text-text-primary border border-line rounded-md focus:outline-none focus:border-purple-secondary"
-                                    type="text"
-                                    placeholder="Endereço"
-                                    required
-                                />
-                            </div>
-
-                            <div>
-                                <label className="text-text-secondary text-sm font-medium mb-1 block">
-                                    Capacidade máxima
-                                </label>
-                                <input
-                                    name="max_people"
-                                    value={formData.max_people}
-                                    onChange={handleChange}
-                                    className="w-full px-3 py-2 bg-bg-secondary text-text-primary border border-line rounded-md focus:outline-none focus:border-purple-secondary"
-                                    type="number"
-                                    placeholder="Capacidade máxima de pessoas"
-                                    min="1"
-                                    required
-                                />
-                            </div>
-
-                            <div>
-                                <label className="text-text-secondary text-sm font-medium mb-1 block">
-                                    Link do Google Maps (Opcional)
-                                </label>
-                                <input
-                                    name="google_maps_url"
-                                    value={formData.google_maps_url}
-                                    onChange={handleChange}
-                                    className="w-full px-3 py-2 bg-bg-secondary text-text-primary border border-line rounded-md focus:outline-none focus:border-purple-secondary"
-                                    type="url"
-                                    placeholder="https://maps.google.com/..."
-                                />
-                            </div>
-
-                            <div>
-                                <label className="text-text-secondary text-sm font-medium mb-1 block">
-                                    Descrição (Opcional)
-                                </label>
-                                <textarea
-                                    name="description"
-                                    value={formData.description}
-                                    onChange={handleChange}
-                                    className="w-full px-3 py-2 bg-bg-secondary text-text-primary border border-line rounded-md focus:outline-none focus:border-purple-secondary resize-none"
-                                    placeholder="Descrição do local"
-                                    rows="3"
-                                />
+                                >
+                                    <option value="ativado">Ativado</option>
+                                    <option value="desativado">Desativado</option>
+                                </select>
                             </div>
 
                             <div className="flex gap-2 mt-2">
@@ -258,7 +207,7 @@ function LocaleEdit() {
                                     type="button"
                                     disabled={submitting}
                                     className="w-full bg-bg-secondary border border-line text-red-400 py-2 px-4 rounded-md cursor-pointer hover:bg-bg-secondary-hover disabled:opacity-50"
-                                    onClick={() => navigate(`/locale/${id}`)}
+                                    onClick={() => navigate(`/gate/${id}`)}
                                 >
                                     Cancelar
                                 </button>
@@ -273,7 +222,7 @@ function LocaleEdit() {
                                     onClick={() => setShowDeleteModal(true)}
                                 >
                                     <Trash2 size={18} />
-                                    Excluir Local
+                                    Excluir Catraca
                                 </button>
                             </div>
                         </form>
@@ -288,7 +237,7 @@ function LocaleEdit() {
                                 Confirmar Exclusão
                             </h3>
                             <p className="text-text-secondary mb-6">
-                                Tem certeza que deseja excluir o local "<strong className="text-text-primary">{formData.name}</strong>"?
+                                Tem certeza que deseja excluir a catraca "<strong className="text-text-primary">{formData.tag}</strong>"?
                                 Esta ação não pode ser desfeita.
                             </p>
                             <div className="flex gap-2">
@@ -315,4 +264,4 @@ function LocaleEdit() {
     )
 }
 
-export default LocaleEdit
+export default GateEdit
