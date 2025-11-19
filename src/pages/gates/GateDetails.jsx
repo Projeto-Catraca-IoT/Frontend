@@ -112,7 +112,7 @@ function GateDetails() {
                 <div className="flex items-center justify-between w-full">
                     <div className='flex items-center gap-2'>
                         <button
-                            onClick={() => navigate(-1)}
+                            onClick={() => navigate(`/locale/${gate.location_id}`)}
                             className="hover:bg-bg-secondary p-2 rounded-lg transition-colors hover:cursor-pointer"
                         >
                             <ArrowLeft size={20} className="text-text-primary" />
