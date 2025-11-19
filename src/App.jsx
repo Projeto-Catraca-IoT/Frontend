@@ -13,6 +13,8 @@ import LocaleDetails from "./pages/locales/LocaleDetails"
 import GateCreate from "./pages/gates/GateCreate"
 import DashboardLayout from "./pages/global/DashboardLayout"
 import GateList from "./pages/gates/GateList"
+import GateDetails from "./pages/gates/GateDetails"
+import GateEdit from "./pages/gates/GateEdit"
 
 const RootRedirect = () => {
   const { isAuthenticated, loading } = useAuth()
@@ -49,6 +51,14 @@ function App() {
             />
             {/* Protected routes */}
             <Route
+              path="/gate/:id"
+              element={
+                <ProtectedRoute>
+                  <GateDetails />
+                </ProtectedRoute>
+              }
+            />
+            <Route
               path="/dashboard"
               element={
                 <ProtectedRoute>
@@ -72,6 +82,14 @@ function App() {
                 </ProtectedRoute>
               }
             />
+            <Route
+              path="/gate/edit/:id"
+              element={
+                <ProtectedRoute>
+                  <GateEdit />
+                </ProtectedRoute>
+              }
+            />            
             <Route
               path="/locale/:id"
               element={

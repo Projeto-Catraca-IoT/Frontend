@@ -117,7 +117,7 @@ function GateCreate() {
                                     type="button"
                                     disabled={loading}
                                     className="w-full bg-bg-secondary border border-line text-red-400 py-2 px-4 rounded-md cursor-pointer hover:bg-bg-secondary-hover disabled:opacity-50"
-                                    onClick={() => navigate(`/location/${locationId}`)}
+                                    onClick={() => navigate(`/locale/${locationId}`)}
                                 >
                                     Cancelar
                                 </button>
