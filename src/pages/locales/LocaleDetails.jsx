@@ -113,8 +113,8 @@ function LocaleDetails() {
         <div className="flex items-center justify-between w-full">
           <div className='flex items-center gap-2'>
             <button
-              onClick={() => navigate(-1)}
-              className="hover:bg-bg-secondary p-2 rounded-lg transition-colors"
+              onClick={() => navigate('/')}
+              className="hover:bg-bg-secondary hover:cursor-pointer p-2 rounded-lg transition-colors"
             >
               <ArrowLeft size={20} className="text-text-primary" />
             </button>
