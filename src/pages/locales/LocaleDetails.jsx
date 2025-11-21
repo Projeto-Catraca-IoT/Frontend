@@ -60,7 +60,11 @@ function LocaleDetails() {
         }
       })
 
-      setLogs(data?.data ?? [])
+      if (data && data.data) {
+        setLogs(data.data)
+      } else {
+        setLogs([])
+      }
     } catch (error) {
       // Não mostra erro se não houver logs
       setLogs([])
@@ -74,8 +78,6 @@ function LocaleDetails() {
       loadLocation()
     }
   }, [id])
-
-  // --- Estados de Carregamento/Erro ---
 
   if (loading) {
     return (
@@ -91,65 +93,57 @@ function LocaleDetails() {
     return (
       <Layout>
         <div className="flex flex-col justify-center items-center h-60 w-full">
-          <span className="text-red-500 mb-4">Local não encontrado</span>
+          <span className="text-red-500 mb-2">Local não encontrado</span>
           <button
-            className="btn-green" // Usando a classe de botão do componente List
+            className="mt-2 px-4 py-2 bg-purple-primary text-white rounded-md"
             onClick={() => navigate('/')}
           >
-            <ArrowLeft size={16} className="mr-2" /> Voltar para a lista
+            Voltar
           </button>
         </div>
       </Layout>
     )
   }
 
-  // --- Renderização Principal ---
-
   return (
     <Layout>
-      <div className="flex flex-col items-start justify-start mt-1 p-2 rounded w-full gap-6">
+      <div className="flex flex-col items-start justify-start mt-1 p-1 rounded gap-4">
 
-        {/* HEADER (Mais parecido com o do List.js) */}
-        <div className="flex w-full justify-between items-center mb-4">
-          
-          <div className='flex items-center gap-4'>
-             <button
-                   onClick={() => navigate('/')}
-                  className="p-2 rounded-lg hover:bg-bg-secondary-hover transition"
-                    >
-                <ArrowLeft size={22} className="text-text-primary" />
-                </button>
-            {/* Usando a classe header-strong do List.js */}
-            <h2 className="header-strong">
-              Detalhes do Local: {location.name}
-            </h2>
-          </div>
-
-          <div className="flex gap-3">
+        {/* Header */}
+        <div className="flex items-center justify-between w-full">
+          <div className='flex items-center gap-2'>
             <button
-              className="btn-green" // Botão primário
-              onClick={() => navigate(`/locale/gates/${id}`)}
+              onClick={() => navigate('/')}
+              className="hover:bg-bg-secondary hover:cursor-pointer p-2 rounded-lg transition-colors"
             >
-              Ver Catracas
+              <ArrowLeft size={20} className="text-text-primary" />
+            </button>
+            <h2 className="text-2xl font-bold text-text-primary">Detalhes do Local</h2>
+          </div>
+          <div className="flex gap-2">
+            <button
+              className="bg-bg-secondary border border-line hover:bg-bg-secondary-hover px-4 py-2 rounded-lg text-purple-primary transition-all cursor-pointer font-medium"
+              onClick={() => navigate(`/locale/edit/${location.id}`)}
+            >
+              Editar Local
             </button>
             <button
-              className="btn-green" // Novo estilo para consistência
+              className="bg-bg-secondary border border-line hover:bg-bg-secondary-hover px-4 py-2 rounded-lg text-purple-primary transition-all cursor-pointer font-medium"
               onClick={() => navigate("/gate/create", { state: { locationId: location.id } })}
             >
               Cadastrar Catraca
             </button>
             <button
-              className="btn-edit"  // Novo estilo para consistência
-              onClick={() => navigate(`/locale/edit/${location.id}`)}
+              className="bg-bg-secondary border border-line hover:bg-bg-secondary-hover px-4 py-2 rounded-lg text-purple-primary transition-all cursor-pointer font-medium"
+              onClick={() => navigate(`/locale/gates/${id}`)}
             >
-              Editar Local
+              Ver Catracas
             </button>
           </div>
         </div>
 
-        {/* Informações e Detalhes - Mantenho o estilo card-modern para consistência visual com List.js */}
-        <div className="card-modern !shadow-lg flex flex-col p-6 w-full">
-          <h3 className="text-xl font-bold text-text-primary mb-4 border-b border-line pb-2">Informações Gerais</h3>
+        {/* Card com informações */}
+        <div className="bg-bg-secondary border border-line rounded-lg p-6 w-full">
           <div className="space-y-4">
 
             {/* Nome */}
@@ -157,7 +151,7 @@ function LocaleDetails() {
               <label className="text-text-secondary text-sm font-medium mb-1 block">
                 Nome do Local
               </label>
-              <p className="text-text-primary text-xl font-bold">
+              <p className="text-text-primary text-lg font-semibold">
                 {location.name}
               </p>
             </div>
@@ -177,7 +171,7 @@ function LocaleDetails() {
                     href={location.google_maps_url}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="flex items-center gap-1 text-purple-primary hover:text-purple-primary-hover text-sm font-medium transition-colors"
+                    className="flex items-center gap-1 text-purple-primary hover:text-purple-primary-hover text-sm"
                   >
                     Ver no mapa
                     <ExternalLink size={14} />
@@ -187,23 +181,20 @@ function LocaleDetails() {
             </div>
 
             {/* Capacidade */}
-            <div className='pt-2'>
+            <div>
               <label className="text-text-secondary text-sm font-medium mb-1 flex items-center gap-1">
                 <Users size={16} />
                 Lotação
               </label>
-              <div className="flex items-center gap-4">
-                <span className="text-text-primary text-3xl font-extrabold">
+              <div className="flex items-center gap-3">
+                <span className="text-text-primary text-2xl font-bold">
                   {location.current_people}
                 </span>
-                <span className="text-text-secondary text-xl">
+                <span className="text-text-secondary text-lg">
                   /
                 </span>
-                <span className="text-text-secondary text-xl font-semibold">
-                  {location.max_people}
-                </span>
-                <span className='text-text-secondary text-base'>
-                  pessoas
+                <span className="text-text-secondary text-lg">
+                  {location.max_people} pessoas
                 </span>
               </div>
 
@@ -234,11 +225,11 @@ function LocaleDetails() {
 
             {/* Descrição */}
             {location.description && (
-              <div className='pt-2'>
+              <div>
                 <label className="text-text-secondary text-sm font-medium mb-1 block">
                   Descrição
                 </label>
-                <p className="text-text-primary leading-relaxed">
+                <p className="text-text-primary">
                   {location.description}
                 </p>
               </div>
@@ -250,7 +241,7 @@ function LocaleDetails() {
                 <label className="text-text-secondary text-xs font-medium mb-1 block">
                   Criado em
                 </label>
-                <p className="text-text-primary text-sm font-medium">
+                <p className="text-text-primary text-sm">
                   {dayjs(location.created_at).format("DD/MM/YYYY HH:mm")}
                 </p>
               </div>
@@ -258,7 +249,7 @@ function LocaleDetails() {
                 <label className="text-text-secondary text-xs font-medium mb-1 block">
                   Atualizado em
                 </label>
-                <p className="text-text-primary text-sm font-medium">
+                <p className="text-text-primary text-sm">
                   {dayjs(location.updated_at).format("DD/MM/YYYY HH:mm")}
                 </p>
               </div>
@@ -267,9 +258,9 @@ function LocaleDetails() {
           </div>
         </div>
 
-        {/* Seção de Movimentações (Historico) */}
-        <div className="card-modern !shadow-lg flex flex-col p-6 w-full">
-          <div className="flex items-center gap-2 mb-4 border-b border-line pb-2">
+        {/* Seção de Movimentações */}
+        <div className="bg-bg-secondary border border-line rounded-lg p-6 w-full">
+          <div className="flex items-center gap-2 mb-4">
             <History size={20} className="text-text-primary" />
             <h3 className="text-xl font-bold text-text-primary">Histórico de Movimentações</h3>
           </div>
@@ -279,8 +270,8 @@ function LocaleDetails() {
               <span className="text-text-secondary">Carregando histórico...</span>
             </div>
           ) : logs.length > 0 ? (
-            <div className="overflow-x-auto -mx-2"> {/* Remove padding horizontal do card para a tabela */}
-              <table className="w-full min-w-[500px]">
+            <div className="overflow-x-auto">
+              <table className="w-full">
                 <thead>
                   <tr className="border-b border-line">
                     <th className="text-left text-text-secondary text-sm font-medium py-3 px-2">
@@ -301,17 +292,17 @@ function LocaleDetails() {
                       className="border-b border-line hover:bg-bg-secondary-hover transition-colors"
                     >
                       <td className="py-3 px-2">
-                        <span className="text-text-primary text-sm font-medium">
-                          Catraca **#{log.gate_id}**
+                        <span className="text-text-primary text-sm">
+                          Catraca #{log.gate_id}
                         </span>
                       </td>
                       <td className="py-3 px-2">
                         <span
-                          className={`px-3 py-1 rounded-full text-xs font-bold uppercase ${log.operation === 'entrada'
-                              ? 'bg-blue-500/20 text-blue-500'
-                              : log.operation === 'saida'
-                                ? 'bg-orange-500/20 text-orange-500'
-                                : 'bg-gray-500/20 text-gray-500'
+                          className={`px-3 py-1 rounded-full text-xs font-semibold ${log.operation === 'entrada'
+                            ? 'bg-blue-500/20 text-blue-500'
+                            : log.operation === 'saida'
+                              ? 'bg-orange-500/20 text-orange-500'
+                              : 'bg-gray-500/20 text-gray-500'
                             }`}
                         >
                           {log.operation === 'entrada' ? 'Entrada' : log.operation === 'saida' ? 'Saída' : log.operation}
@@ -320,10 +311,7 @@ function LocaleDetails() {
                       <td className="py-3 px-2 text-right">
                         <div className="flex flex-col items-end">
                           <span className="text-text-primary text-sm font-medium">
-                            {dayjs(log.created_at).format("DD/MM/YYYY")}
-                          </span>
-                          <span className="text-text-secondary text-xs">
-                            {dayjs(log.created_at).format("HH:mm:ss")}
+                            {dayjs(log.created_at).format("DD/MM/YYYY HH:mm")}
                           </span>
                         </div>
                       </td>
@@ -336,7 +324,7 @@ function LocaleDetails() {
             <div className="flex flex-col items-center justify-center py-8">
               <p className="text-text-secondary mb-2">Nenhuma movimentação registrada</p>
               <p className="text-text-secondary text-sm">
-                As entradas e saídas aparecerão aqui.
+                As entradas e saídas aparecerão aqui
               </p>
             </div>
           )}

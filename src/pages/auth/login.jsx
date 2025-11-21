@@ -3,7 +3,6 @@ import { useNavigate, Link } from "react-router-dom"
 import { useAuth } from "../../contexts/AuthContext"
 import { toast } from "react-toastify"
 import api from "../../services/api"
-import { Eye, EyeOff } from "lucide-react"
 
 function Login() {
   const emailRef = useRef()
@@ -11,9 +10,6 @@ function Login() {
   const navigate = useNavigate()
   const { login } = useAuth()
   const [loading, setLoading] = useState(false)
-
-  // 👁️ estado para mostrar/esconder senha
-  const [showPassword, setShowPassword] = useState(false)
 
   async function handleSubmit(event) {
     event.preventDefault()
@@ -32,7 +28,9 @@ function Login() {
       const { data } = await api.post('/auth/login', {
         email: email,
         password: password
-      }, { withCredentials: true })
+      }, {
+        withCredentials: true
+      })
 
       if (data && data.token) {
         login(data.token)
@@ -56,90 +54,53 @@ function Login() {
   }
 
   return (
-    <div className="min-h-screen bg-bg flex items-center justify-center px-4">
+    <div className="min-h-screen bg-bg flex items-center justify-center">
+      <div className="max-w-md w-full mx-4">
 
-      <div className="max-w-md w-full">
-
-        {/* LOGO */}
         <h1 className="text-4xl font-extrabold text-center mb-8 tracking-wide">
           <span className="text-text-primary">Smart</span>
           <span className="text-green-logo">Gate</span>
-         
-          <div className="w-26 h-[5px] bg-purple-secondary mx-auto mt-2 rounded-full"></div>
+
+          <div className="w-28 h-[5px] bg-purple-secondary mx-auto mt-2 rounded-full"></div>
         </h1>
 
-        {/* CARD */}
-        <div className="bg-bg-secondary p-10 rounded-2xl shadow-xl border border-line/20
-                        backdrop-blur-sm transition-all">
+        <div className="bg-bg-secondary p-8 rounded-lg shadow-lg">
+          <h2 className="text-2xl font-bold mb-4 text-center text-text-primary">Login</h2>
 
-          <h2 className="text-3xl font-bold mb-6 text-center text-blue-900">
-            Login
-          </h2>
-
-          {/* FORMULÁRIO */}
-          <form className="flex flex-col gap-5" onSubmit={handleSubmit}>
-
-            {/* Email */}
-            <div className="flex flex-col">
-              <label className="text-text-primary font-medium mb-1">Email</label>
-              <input
-                ref={emailRef}
-                className="w-full px-4 py-3 bg-secondary text-text-primary border border-line 
-                           rounded-lg focus:outline-none focus:border-blue-900 shadow-sm 
-                           transition-all"
-                type="email"
-                placeholder="Digite seu email"
-                disabled={loading}
-                required
-              />
-            </div>
-
-            {/* Senha com olhinho */}
-            <div className="flex flex-col relative">
-              <label className="text-text-primary font-medium mb-1">Senha</label>
-              <input
-                ref={passwordRef}
-                className="w-full px-4 py-3 bg-secondary text-text-primary border border-line 
-                           rounded-lg focus:outline-none focus:border-blue-900 shadow-sm 
-                           transition-all pr-12"
-                type={showPassword ? "text" : "password"}
-                placeholder="Digite sua senha"
-                disabled={loading}
-                required
-              />
-
-              {/* Botão do olhinho */}
-              <button
-                type="button"
-                className="absolute right-4 top-10 text-text-secondary hover:text-blue-900"
-                onClick={() => setShowPassword(!showPassword)}
-              >
-                {showPassword ? <EyeOff size={22} /> : <Eye size={22} />}
-              </button>
-            </div>
-
-            {/* BOTÃO VERDE ESCURO */}
+          <form className="flex flex-col gap-4" onSubmit={handleSubmit}>
+            <input
+              ref={emailRef}
+              className="w-full px-3 py-2 bg-secondary text-text-primary border border-line rounded-md focus:outline-none focus:border-purple-primary"
+              type="email"
+              placeholder="Email"
+              disabled={loading}
+              required
+            />
+            <input
+              ref={passwordRef}
+              className="w-full px-3 py-2 bg-secondary text-text-primary border border-line rounded-md focus:outline-none focus:border-purple-primary"
+              type="password"
+              placeholder="Senha"
+              disabled={loading}
+              required
+            />
             <button
               type="submit"
               disabled={loading}
-              className="w-full mt-2 bg-green-700 hover:bg-green-600 text-white font-semibold 
-                         py-3 rounded-lg shadow-md hover:shadow-lg transition-all 
-                         disabled:opacity-50 disabled:cursor-not-allowed"
+              className="w-full mt-2 bg-purple-primary text-white py-2 px-4 rounded-md cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
             >
-              {loading ? 'Entrando...' : 'Entrar'}
+              {loading ? 'Entrando...' : 'Login'}
             </button>
           </form>
 
-          {/* LINK PARA REGISTRAR */}
-          <div className="mt-6 text-center">
+          <div className="mt-4 text-center">
             <Link
               to="/register"
-              className="text-blue-900 hover:text-blue-700 text-sm font-medium transition"
+              className="text-text-secondary hover:text-purple-primary text-sm"
             >
               Não possui conta? Registre-se
             </Link>
           </div>
-
         </div>
       </div>
     </div>

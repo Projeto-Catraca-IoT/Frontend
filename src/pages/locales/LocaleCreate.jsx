@@ -60,22 +60,17 @@ function LocaleCreate() {
     }
 
     return (
-        <Layout noWrapper>
-
-            <div className="mt-12 flex justify-center">
+        <Layout>
+            <div className="mt-10 flex items-center justify-center">
                 <div className="max-w-md w-full mx-4">
-                    <div className="bg-bg-secondary p-8 rounded-xl border border-line shadow-md">
-                        
-                        <h2 className="text-3xl font-bold mb-6 text-center text-text-primary">
+                    <div className="bg-bg-secondary p-8 rounded-lg border border-line">
+                        <h2 className="text-2xl font-bold mb-4 text-center text-text-primary">
                             Cadastrar Local
                         </h2>
-
-                        <form className="flex flex-col gap-5" onSubmit={handleSubmit}>
-                            
+                        <form className="flex flex-col gap-4" onSubmit={handleSubmit}>
                             <input
                                 ref={nameRef}
-                                className="w-full px-3 py-2 bg-bg text-text-primary border border-line rounded-md 
-                                focus:outline-none focus:border-purple-secondary transition"
+                                className="w-full px-3 py-2 bg-bg-secondary text-text-primary border border-line rounded-md focus:outline-none focus:border-purple-primary"
                                 type="text"
                                 placeholder="Nome do local"
                                 required
@@ -83,8 +78,7 @@ function LocaleCreate() {
 
                             <input
                                 ref={addressRef}
-                                className="w-full px-3 py-2 bg-bg text-text-primary border border-line rounded-md 
-                                focus:outline-none focus:border-purple-secondary transition"
+                                className="w-full px-3 py-2 bg-bg-secondary text-text-primary border border-line rounded-md focus:outline-none focus:border-purple-primary"
                                 type="text"
                                 placeholder="Endereço"
                                 required
@@ -92,8 +86,7 @@ function LocaleCreate() {
 
                             <input
                                 ref={maxPeopleRef}
-                                className="w-full px-3 py-2 bg-bg text-text-primary border border-line rounded-md 
-                                focus:outline-none focus:border-purple-secondary transition"
+                                className="w-full px-3 py-2 bg-bg-secondary text-text-primary border border-line rounded-md focus:outline-none focus:border-purple-primary"
                                 type="number"
                                 placeholder="Capacidade máxima de pessoas"
                                 min="1"
@@ -102,8 +95,7 @@ function LocaleCreate() {
 
                             <textarea
                                 ref={descriptionRef}
-                                className="w-full px-3 py-2 bg-bg text-text-primary border border-line rounded-md 
-                                focus:outline-none focus:border-purple-secondary resize-none transition"
+                                className="w-full px-3 py-2 bg-bg-secondary text-text-primary border border-line rounded-md focus:outline-none focus:border-purple-primary resize-none"
                                 placeholder="Descrição (Opcional)"
                                 rows="3"
                             />
@@ -112,25 +104,20 @@ function LocaleCreate() {
                                 <button
                                     type="submit"
                                     disabled={loading}
-                                    className="w-full bg-purple-primary text-white py-2 px-4 rounded-md shadow 
-                                    hover:opacity-90 cursor-pointer transition disabled:opacity-50"
+                                    className="w-full bg-purple-primary text-white py-2 px-4 rounded-md cursor-pointer hover:bg-purple-primary-hover disabled:opacity-50 disabled:cursor-not-allowed"
                                 >
                                     {loading ? 'Criando...' : 'Criar Local'}
                                 </button>
-
                                 <button
                                     type="button"
                                     disabled={loading}
+                                    className="w-full bg-bg-secondary border border-line text-red-400 py-2 px-4 rounded-md cursor-pointer hover:bg-bg-secondary-hover disabled:opacity-50"
                                     onClick={() => navigate("/")}
-                                    className="w-full bg-bg border border-line text-text-primary py-2 px-4 rounded-md 
-                                    hover:bg-bg-secondary-hover cursor-pointer transition disabled:opacity-50"
                                 >
                                     Cancelar
                                 </button>
                             </div>
-
                         </form>
-
                     </div>
                 </div>
             </div>

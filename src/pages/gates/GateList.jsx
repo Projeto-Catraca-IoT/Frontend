@@ -4,13 +4,12 @@ import { useParams, useNavigate, useLocation } from 'react-router-dom'
 import { useAuth } from "../../contexts/AuthContext"
 import Layout from '../global/Layout'
 import api from "../../services/api"
-import { ArrowLeft, Plus } from "lucide-react" // Adicionei 'Plus' para o botão
+import { ArrowLeft } from "lucide-react"
 
 function GateList() {
-    const { id: routeId } = useParams()
-    const { state } = useLocation()
-    // Garante que o ID do local seja pego da rota ou do state
-    const id = routeId || state?.locationId
+    const { id: routeId } = useParams() // ID da URL (ex: /locale/gates/:id)
+    const { state } = useLocation()     // fallback caso o ID venha via navigate state
+    const id = routeId || state?.locationId // garante que sempre haja um ID válido
 
     const { logout, getToken } = useAuth()
     const navigate = useNavigate()
@@ -35,13 +34,13 @@ function GateList() {
                 return
             }
 
-            // 1. Carrega informações do local
+            // Carrega informações do local
             const locationResponse = await api.get(`/locations/${id}`, {
                 headers: { Authorization: `Bearer ${token}` }
             })
             setLocation(locationResponse.data.data)
 
-            // 2. Carrega catracas
+            // Carrega catracas
             const gatesResponse = await api.get(`/locations/${id}/gates`, {
                 headers: { Authorization: `Bearer ${token}` }
             })
@@ -64,7 +63,6 @@ function GateList() {
         if (id) loadGates()
     }, [id])
 
-    // --- Estado de Carregamento ---
     if (loading) {
         return (
             <Layout>
@@ -77,72 +75,53 @@ function GateList() {
 
     return (
         <Layout>
-            <div className="flex flex-col items-start justify-start mt-1 p-2 rounded w-full gap-6">
+            <div className="flex flex-col items-start justify-start mt-1 p-1 rounded gap-4">
 
-                {/* HEADER PADRONIZADO */}
-                <div className="flex w-full justify-between items-center mb-4">
-                    <div className='flex items-center gap-4'>
-                        {/* Botão de Voltar para os Detalhes do Local */}
-                         <button
-                                  onClick={() => navigate(`/locale/${id}`)}
-                                  className="p-2 rounded-lg hover:bg-bg-secondary-hover transition"
-                                >
-                                  <ArrowLeft size={22} className="text-text-primary" />
-                                </button>
-                        
+                {/* Header */}
+                <div className="flex items-center justify-between w-full">
+                    <div className='flex items-center gap-2'>
+                        <button
+                            onClick={() => navigate(`/locale/${id}`)}
+                            className="hover:bg-bg-secondary p-2 rounded-lg transition-colors hover:cursor-pointer"
+                        >
+                            <ArrowLeft size={20} className="text-text-primary" />
+                        </button>
                         <div>
-                            {/* Usando header-strong */}
-                            <h2 className="header-strong">
-                                Catracas do Local
-                            </h2>
+                            <h2 className="text-2xl font-bold text-text-primary">Catracas</h2>
                             {location && (
-                                <p className="text-text-secondary text-base font-medium">
-                                    {location.name}
-                                </p>
+                                <p className="text-text-secondary text-sm">{location.name}</p>
                             )}
                         </div>
                     </div>
-
-                    {/* Botão de Ação */}
-                    <button
-                        className="btn-green flex items-center gap-2"
-                        onClick={() => navigate("/gate/create", { state: { locationId: id } })}
-                    >
-                        <Plus size={16} /> Cadastrar Catraca
-                    </button>
                 </div>
-
-                {/* --- CONTEÚDO --- */}
 
                 {/* Lista de Catracas */}
                 {gates.length > 0 ? (
-                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 w-full">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 w-full">
                         {gates.map((gate) => (
                             <div
                                 key={gate.id}
-                                // Usando card-modern para consistência visual com List.js
-                                className="card-modern"
+                                className="bg-bg-secondary border border-line rounded-lg hover:bg-bg-secondary-hover hover:border-purple-primary cursor-pointer transition-all p-4"
                                 onClick={() => navigate(`/gate/${gate.id}`)}
                             >
                                 <div className="flex flex-col gap-3">
-                                    
-                                    {/* Identificador/Nome */}
+                                    {/* Tag/Identificador */}
                                     <div>
                                         <p className="text-text-secondary text-xs font-medium mb-1">
                                             Identificador
                                         </p>
-                                        <p className="text-text-primary font-bold text-xl truncate">
+                                        <p className="text-text-primary font-semibold text-lg truncate">
                                             {gate.tag}
                                         </p>
                                     </div>
-                                    
+
                                     {/* Status */}
-                                    <div className="flex items-center justify-between mt-auto pt-3 border-t border-line">
+                                    <div className="flex items-center justify-between pt-3 border-t border-line">
                                         <span className="text-text-secondary text-sm">
                                             Status
                                         </span>
                                         <span
-                                            className={`px-3 py-1 rounded-full text-xs font-semibold uppercase ${gate.status === 'ativado'
+                                            className={`px-3 py-1 rounded-full text-xs font-semibold ${gate.status === 'ativado'
                                                 ? 'bg-green-500/20 text-green-500'
                                                 : 'bg-red-500/20 text-red-500'
                                                 }`}
@@ -155,23 +134,15 @@ function GateList() {
                         ))}
                     </div>
                 ) : (
-                    // Estado Vazio
-                    <div className="flex flex-col items-center justify-center w-full h-80 gap-4 bg-bg-secondary border border-line rounded-lg p-6">
+                    <div className="flex flex-col items-center justify-center w-full h-80 gap-4">
                         <div className="text-center">
-                            <p className="text-text-secondary mb-2 text-lg">
-                                Nenhuma catraca cadastrada neste local.
+                            <p className="text-text-secondary mb-2">
+                                Nenhuma catraca cadastrada neste local
                             </p>
                             <p className="text-text-secondary text-sm">
-                                Use o botão acima para adicionar uma catraca e começar o controle de acesso.
+                                Adicione uma catraca para começar o controle de acesso
                             </p>
                         </div>
-                        {/* Adiciona o botão de cadastrar novamente no estado vazio */}
-                        <button
-                            className="btn-green flex items-center gap-2 mt-4"
-                            onClick={() => navigate("/gate/create", { state: { locationId: id } })}
-                        >
-                            <Plus size={16} /> Cadastrar Catraca
-                        </button>
                     </div>
                 )}
 

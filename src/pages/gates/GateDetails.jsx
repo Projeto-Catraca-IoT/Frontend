@@ -107,141 +107,146 @@ function GateDetails() {
 
     return (
         <Layout>
-  <div className="flex flex-col gap-6 mt-4">
+            <div className="flex flex-col items-start justify-start mt-1 p-1 rounded gap-4">
 
-    {/* HEADER */}
-    <div className="flex items-center justify-between w-full bg-bg-secondary p-4 rounded-lg   ">
-      <div className="flex items-center gap-3">
-        <button
-          onClick={() => navigate(`/locale/gates/${gate.location_id}`)}
-          className="p-2 rounded-lg hover:bg-bg-secondary-hover transition"
-        >
-          <ArrowLeft size={22} className="text-text-primary" />
-        </button>
-
-        <h2 className="text-2xl font-extrabold text-text-primary tracking-wide">
-          Detalhes da Catraca
-        </h2>
-      </div>
-
-      <button
-        className="px-5 py-2 btn-edit flex items-center gap-2"
-        onClick={() => navigate(`/gate/edit/${gate.id}`)}
-      >
-        Editar
-      </button>
-    </div>
-
-    {/* CARD PRINCIPAL */}
-    <div className="bg-bg-secondary border border-line rounded-2xl p-6 w-full shadow-sm hover:shadow-lg transition">
-
-      {/* IDENTIFICADOR + STATUS */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 mb-6">
-
-        {/* IDENTIFICADOR */}
-        <div>
-          <label className="text-text-secondary text-sm font-semibold flex items-center gap-2 mb-1">
-            <Tag size={18} />
-            Identificador
-          </label>
-          <p className="text-text-primary text-xl font-bold">
-            {gate.tag}
-          </p>
-        </div>
-
-        {/* STATUS */}
-        <div>
-          <label className="text-text-secondary text-sm font-semibold flex items-center gap-2 mb-1">
-            <Activity size={18} />
-            Status
-          </label>
-          <span
-            className={`
-              px-5 py-2 rounded-full text-sm font-semibold 
-              ${gate.status === "ativado"
-                ? "bg-green-500/20 text-green-500"
-                : "bg-red-500/20 text-red-500"
-              }
-            `}
-          >
-            {gate.status === "ativado" ? "Ativado" : "Desativado"}
-          </span>
-        </div>
-
-      </div>
-
-      {/* MOVIMENTAÇÕES */}
-      <div>
-        <h3 className="text-lg font-bold text-text-primary mb-3 flex items-center gap-2">
-          <History size={18} />
-          Movimentações
-        </h3>
-
-        <div className="border border-line rounded-lg p-4 bg-bg shadow-inner">
-
-          {loadingLogs ? (
-            <p className="text-text-secondary">Carregando movimentações...</p>
-          ) : logs.length > 0 ? (
-            <div className="flex flex-col gap-3">
-
-              {/* Cabeçalho */}
-              <div className="flex items-center justify-between pb-2 border-b border-line">
-                <p className="font-semibold text-text-primary">Operação</p>
-                <p className="font-semibold text-text-primary">Data</p>
-              </div>
-
-              {/* LISTA */}
-              {logs.map(log => (
-                <div
-                  key={log.id}
-                  className="flex items-center justify-between py-1 border-b border-line/60 last:border-none"
-                >
-                  <p className="text-text-primary">{log.operation}</p>
-                  <p className="text-text-secondary">
-                    {dayjs(log.created_at).format("DD/MM/YYYY HH:mm")}
-                  </p>
+                <div className="flex items-center justify-between w-full">
+                    <div className='flex items-center gap-2'>
+                        <button
+                            onClick={() => navigate(`/locale/gates/${gate.location_id}`)}
+                            className="hover:bg-bg-secondary p-2 rounded-lg transition-colors hover:cursor-pointer"
+                        >
+                            <ArrowLeft size={20} className="text-text-primary" />
+                        </button>
+                        <h2 className="text-2xl font-bold text-text-primary">
+                            Detalhes da Catraca
+                        </h2>
+                    </div>
+                    <button
+                        className="bg-bg-secondary border border-line hover:bg-bg-secondary-hover px-4 py-2 rounded-lg text-purple-primary transition-all cursor-pointer font-medium"
+                        onClick={() => navigate(`/gate/edit/${gate.id}`)}
+                    >
+                        Editar
+                    </button>
                 </div>
-              ))}
 
+                <div className="bg-bg-secondary border border-line rounded-lg p-6 w-full">
+                    <div className="space-y-4">
+
+                        <div className='flex justify-between'>
+                            {/* Identificador/Tag */}
+                            <div>
+                                <label className="text-text-secondary text-sm font-medium mb-1 flex items-center gap-1">
+                                    <Tag size={16} />
+                                    Identificador
+                                </label>
+                                <p className="text-text-primary text-lg font-semibold">
+                                    {gate.tag}
+                                </p>
+                            </div>
+
+                            {/* Status */}
+                            <div>
+                                <label className="text-text-secondary text-sm font-medium mb-1 flex items-center gap-1">
+                                    <Activity size={16} />
+                                    Status
+                                </label>
+                                <div className="flex items-center gap-2">
+                                    <span
+                                        className={`px-4 py-2 rounded-full text-sm font-semibold ${gate.status === 'ativado'
+                                            ? 'bg-green-500/20 text-green-500'
+                                            : 'bg-red-500/20 text-red-500'
+                                            }`}
+                                    >
+                                        {gate.status === 'ativado' ? 'Ativado' : 'Desativado'}
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+
+                        {/* Datas */}
+                        {(gate.created_at || gate.updated_at) && (
+                            <div className="grid grid-cols-2 gap-4 pt-4 border-t border-line">
+                                {gate.created_at && (
+                                    <div>
+                                        <label className="text-text-secondary text-xs font-medium mb-1 block">
+                                            Criada em
+                                        </label>
+                                        <p className="text-text-primary text-sm">
+                                            {dayjs(gate.created_at).format("DD/MM/YYYY HH:mm")}
+                                        </p>
+                                    </div>
+                                )}
+                                {gate.updated_at && (
+                                    <div>
+                                        <label className="text-text-secondary text-xs font-medium mb-1 block">
+                                            Atualizada em
+                                        </label>
+                                        <p className="text-text-primary text-sm">
+                                            {dayjs(gate.updated_at).format("DD/MM/YYYY HH:mm")}
+                                        </p>
+                                    </div>
+                                )}
+                            </div>
+                        )}
+                    </div>
+
+                </div>
+                <div className="bg-bg-secondary border border-line rounded-lg p-6 w-full">
+                    <div className="flex items-center gap-2 mb-4">
+                        <History size={20} className="text-text-primary" />
+                        <h3 className="text-xl font-bold text-text-primary">Movimentações</h3>
+                    </div>
+                    {logs.length > 0 ? (
+                        <div className="overflow-x-auto">
+                            <table className="w-full">
+                                <thead>
+                                    <tr className="border-b border-line">
+                                        <th className="text-left text-text-secondary text-sm font-medium py-3 px-2">
+                                            Operação
+                                        </th>
+                                        <th className="text-right text-text-secondary text-sm font-medium py-3 px-2">
+                                            Data
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {logs.map((log) => (
+                                        <tr
+                                            key={log.id}
+                                            className="border-b border-line hover:bg-bg-secondary-hover transition-colors"
+                                        >
+                                            <td className="py-3 px-2">
+                                                <span
+                                                    className={`px-3 py-1 rounded-full text-xs font-semibold ${log.operation === 'entrada'
+                                                            ? 'bg-blue-500/20 text-blue-500'
+                                                            : log.operation === 'saida'
+                                                                ? 'bg-orange-500/20 text-orange-500'
+                                                                : 'bg-gray-500/20 text-gray-500'
+                                                        }`}
+                                                >
+                                                    {log.operation === 'entrada' ? 'Entrada' : log.operation === 'saida' ? 'Saída' : log.operation}
+                                                </span>
+                                            </td>
+                                            <td className="py-3 px-2 text-right">
+                                                <div className="flex flex-col items-end">
+                                                    <span className="text-text-primary text-sm font-medium">
+                                                        {dayjs(log.created_at).format("DD/MM/YYYY HH:mm")}
+                                                    </span>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    ))}
+                                </tbody>
+                            </table>
+                        </div>
+                    ) : (
+                        <div className="flex flex-col items-center justify-center py-8">
+                            <p className="text-text-secondary mb-2">Sem movimentações por aqui</p>
+                        </div>
+                    )}
+                </div>
             </div>
-          ) : (
-            <p className="text-text-secondary">Sem movimentações registradas.</p>
-          )}
-
-        </div>
-      </div>
-
-      {/* DATAS */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 mt-8 pt-6 border-t border-line">
-
-        {gate.created_at && (
-          <div>
-            <label className="text-text-secondary text-xs uppercase font-semibold tracking-wide">
-              Criada em
-            </label>
-            <p className="text-text-primary text-sm mt-1">
-              {dayjs(gate.created_at).format("DD/MM/YYYY HH:mm")}
-            </p>
-          </div>
-        )}
-
-        {gate.updated_at && (
-          <div>
-            <label className="text-text-secondary text-xs uppercase font-semibold tracking-wide">
-              Atualizada em
-            </label>
-            <p className="text-text-primary text-sm mt-1">
-              {dayjs(gate.updated_at).format("DD/MM/YYYY HH:mm")}
-            </p>
-          </div>
-        )}
-
-      </div>
-    </div>
-
-  </div>
-</Layout>
-
+        </Layout>
     )
 }
 
