@@ -180,7 +180,7 @@ function LocaleEdit() {
                                     name="name"
                                     value={formData.name}
                                     onChange={handleChange}
-                                    className="w-full px-3 py-2 bg-bg-secondary text-text-primary border border-line rounded-md focus:outline-none focus:border-purple-secondary"
+                                    className="w-full px-3 py-2 bg-bg-secondary text-text-primary border border-line rounded-md focus:outline-none focus:border-purple-primary"
                                     type="text"
                                     placeholder="Nome do local"
                                     required
@@ -195,7 +195,7 @@ function LocaleEdit() {
                                     name="address"
                                     value={formData.address}
                                     onChange={handleChange}
-                                    className="w-full px-3 py-2 bg-bg-secondary text-text-primary border border-line rounded-md focus:outline-none focus:border-purple-secondary"
+                                    className="w-full px-3 py-2 bg-bg-secondary text-text-primary border border-line rounded-md focus:outline-none focus:border-purple-primary"
                                     type="text"
                                     placeholder="Endereço"
                                     required
@@ -210,7 +210,7 @@ function LocaleEdit() {
                                     name="max_people"
                                     value={formData.max_people}
                                     onChange={handleChange}
-                                    className="w-full px-3 py-2 bg-bg-secondary text-text-primary border border-line rounded-md focus:outline-none focus:border-purple-secondary"
+                                    className="w-full px-3 py-2 bg-bg-secondary text-text-primary border border-line rounded-md focus:outline-none focus:border-purple-primary"
                                     type="number"
                                     placeholder="Capacidade máxima de pessoas"
                                     min="1"
@@ -226,7 +226,7 @@ function LocaleEdit() {
                                     name="google_maps_url"
                                     value={formData.google_maps_url}
                                     onChange={handleChange}
-                                    className="w-full px-3 py-2 bg-bg-secondary text-text-primary border border-line rounded-md focus:outline-none focus:border-purple-secondary"
+                                    className="w-full px-3 py-2 bg-bg-secondary text-text-primary border border-line rounded-md focus:outline-none focus:border-purple-primary"
                                     type="url"
                                     placeholder="https://maps.google.com/..."
                                 />
@@ -240,7 +240,7 @@ function LocaleEdit() {
                                     name="description"
                                     value={formData.description}
                                     onChange={handleChange}
-                                    className="w-full px-3 py-2 bg-bg-secondary text-text-primary border border-line rounded-md focus:outline-none focus:border-purple-secondary resize-none"
+                                    className="w-full px-3 py-2 bg-bg-secondary text-text-primary border border-line rounded-md focus:outline-none focus:border-purple-primary resize-none"
                                     placeholder="Descrição do local"
                                     rows="3"
                                 />
@@ -282,7 +282,7 @@ function LocaleEdit() {
 
                 {/* Modal de Confirmação */}
                 {showDeleteModal && (
-                    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+                    <div className="fixed inset-0 bg-black/40 backdrop-blur-sm flex items-center justify-center z-50">
                         <div className="bg-bg-secondary border border-line rounded-lg p-6 max-w-md w-full mx-4">
                             <h3 className="text-xl font-bold text-text-primary mb-2">
                                 Confirmar Exclusão

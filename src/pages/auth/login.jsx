@@ -56,13 +56,21 @@ function Login() {
   return (
     <div className="min-h-screen bg-bg flex items-center justify-center">
       <div className="max-w-md w-full mx-4">
+
+        <h1 className="text-4xl font-extrabold text-center mb-8 tracking-wide">
+          <span className="text-text-primary">Smart</span>
+          <span className="text-green-logo">Gate</span>
+
+          <div className="w-28 h-[5px] bg-purple-secondary mx-auto mt-2 rounded-full"></div>
+        </h1>
+
         <div className="bg-bg-secondary p-8 rounded-lg shadow-lg">
           <h2 className="text-2xl font-bold mb-4 text-center text-text-primary">Login</h2>
 
           <form className="flex flex-col gap-4" onSubmit={handleSubmit}>
             <input
               ref={emailRef}
-              className="w-full px-3 py-2 bg-secondary text-text-primary border border-line rounded-md focus:outline-none focus:border-purple-secondary"
+              className="w-full px-3 py-2 bg-secondary text-text-primary border border-line rounded-md focus:outline-none focus:border-purple-primary"
               type="email"
               placeholder="Email"
               disabled={loading}
@@ -70,7 +78,7 @@ function Login() {
             />
             <input
               ref={passwordRef}
-              className="w-full px-3 py-2 bg-secondary text-text-primary border border-line rounded-md focus:outline-none focus:border-purple-secondary"
+              className="w-full px-3 py-2 bg-secondary text-text-primary border border-line rounded-md focus:outline-none focus:border-purple-primary"
               type="password"
               placeholder="Senha"
               disabled={loading}
@@ -88,7 +96,7 @@ function Login() {
           <div className="mt-4 text-center">
             <Link
               to="/register"
-              className="text-text-secondary hover:text-purple-secondary text-sm"
+              className="text-text-secondary hover:text-purple-primary text-sm"
             >
               Não possui conta? Registre-se
             </Link>

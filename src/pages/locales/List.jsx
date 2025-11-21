@@ -95,7 +95,7 @@ function List() {
                         Capacidade:
                       </span>
                     </div>
-                    <span className="bg-purple-secondary text-text-primary px-3 py-1 rounded-full text-sm font-semibold">
+                    <span className="bg-purple-primary text-text-primary px-3 py-1 rounded-full text-sm font-semibold">
                       {location.max_people}
                     </span>
                   </div>

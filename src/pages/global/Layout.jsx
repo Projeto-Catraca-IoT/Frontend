@@ -17,9 +17,9 @@ function Layout({ children }) {
                 <h1 onClick={() => navigate('/')} className="cursor-pointer text-2xl font-bold text-green-logo"><span className="text-text-primary">Smart</span>Gate</h1>
                 <button
                     onClick={handleLogout}
-                    className="bg-bg-secondary border border-line px-4 py-2 rounded-lg text-text-primary hover:bg-bg-secondary-hover cursor-pointer transition-all font-medium"
+                    className="bg-green-500/20 border border-green-500/50 px-4 py-2 rounded-lg text-green-500 hover:bg-green-500/30 cursor-pointer transition-all font-medium"
                 >
-                    <LogOut className="w-4 h-4"/>
+                    <LogOut className="w-4 h-4" />
                 </button>
             </div>
             <main className="flex-1 p-6 bg-bg-secondary border border-line rounded-lg m-10 shadow-lg">

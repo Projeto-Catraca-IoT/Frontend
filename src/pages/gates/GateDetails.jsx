@@ -163,39 +163,6 @@ function GateDetails() {
                             </div>
                         </div>
 
-                        <div className=''>
-                            <h2>Movimentações:</h2>
-                            <div className='border border-line rounded-lg p-2 bg-bg'>
-                                {logs.length > 0 ? (
-                                    <>
-                                        <div className="flex flex-col">
-                                            <div className='flex justify-between mb-4'>
-                                                <p className='text-text-primary font-bold'>Operação</p>
-                                                <p className='text-text-primary font-bold'>Data</p>
-                                            </div>
-                                            {logs.map((log) => (
-                                                <div
-                                                    key={log.id}
-                                                    className="flex justify-between"
-                                                >
-                                                    <div className="flex justify-between mb-1 w-full">
-                                                        <p>
-                                                            {log.operation}
-                                                        </p>
-                                                        <p>{dayjs(log.created_at).format("DD/MM/YYYY HH:mm")}</p>
-                                                    </div>
-                                                </div>
-                                            ))}
-                                        </div>
-                                    </>
-                                ) : (
-                                    <div className="flex w-full justify-between gap-1 items-center m-2">
-                                        <p className="text-text-secondary">Sem movimentações por aqui</p>
-                                    </div>
-                                )}
-                            </div>
-                        </div>
-
                         {/* Datas */}
                         {(gate.created_at || gate.updated_at) && (
                             <div className="grid grid-cols-2 gap-4 pt-4 border-t border-line">
@@ -221,10 +188,63 @@ function GateDetails() {
                                 )}
                             </div>
                         )}
-
                     </div>
-                </div>
 
+                </div>
+                <div className="bg-bg-secondary border border-line rounded-lg p-6 w-full">
+                    <div className="flex items-center gap-2 mb-4">
+                        <History size={20} className="text-text-primary" />
+                        <h3 className="text-xl font-bold text-text-primary">Movimentações</h3>
+                    </div>
+                    {logs.length > 0 ? (
+                        <div className="overflow-x-auto">
+                            <table className="w-full">
+                                <thead>
+                                    <tr className="border-b border-line">
+                                        <th className="text-left text-text-secondary text-sm font-medium py-3 px-2">
+                                            Operação
+                                        </th>
+                                        <th className="text-right text-text-secondary text-sm font-medium py-3 px-2">
+                                            Data
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {logs.map((log) => (
+                                        <tr
+                                            key={log.id}
+                                            className="border-b border-line hover:bg-bg-secondary-hover transition-colors"
+                                        >
+                                            <td className="py-3 px-2">
+                                                <span
+                                                    className={`px-3 py-1 rounded-full text-xs font-semibold ${log.operation === 'entrada'
+                                                            ? 'bg-blue-500/20 text-blue-500'
+                                                            : log.operation === 'saida'
+                                                                ? 'bg-orange-500/20 text-orange-500'
+                                                                : 'bg-gray-500/20 text-gray-500'
+                                                        }`}
+                                                >
+                                                    {log.operation === 'entrada' ? 'Entrada' : log.operation === 'saida' ? 'Saída' : log.operation}
+                                                </span>
+                                            </td>
+                                            <td className="py-3 px-2 text-right">
+                                                <div className="flex flex-col items-end">
+                                                    <span className="text-text-primary text-sm font-medium">
+                                                        {dayjs(log.created_at).format("DD/MM/YYYY HH:mm")}
+                                                    </span>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    ))}
+                                </tbody>
+                            </table>
+                        </div>
+                    ) : (
+                        <div className="flex flex-col items-center justify-center py-8">
+                            <p className="text-text-secondary mb-2">Sem movimentações por aqui</p>
+                        </div>
+                    )}
+                </div>
             </div>
         </Layout>
     )

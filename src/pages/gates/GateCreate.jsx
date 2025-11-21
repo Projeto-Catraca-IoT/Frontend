@@ -84,7 +84,7 @@ function GateCreate() {
                                 </label>
                                 <input
                                     ref={tagRef}
-                                    className="w-full px-3 py-2 bg-bg-secondary text-text-primary border border-line rounded-md focus:outline-none focus:border-purple-secondary"
+                                    className="w-full px-3 py-2 bg-bg-secondary text-text-primary border border-line rounded-md focus:outline-none focus:border-purple-primary"
                                     type="text"
                                     placeholder="Ex: catraca_01"
                                     required
@@ -98,7 +98,7 @@ function GateCreate() {
                                 <select
                                     value={status}
                                     onChange={(e) => setStatus(e.target.value)}
-                                    className="w-full px-3 py-2 bg-bg-secondary text-text-primary border border-line rounded-md focus:outline-none focus:border-purple-secondary"
+                                    className="w-full px-3 py-2 bg-bg-secondary text-text-primary border border-line rounded-md focus:outline-none focus:border-purple-primary"
                                 >
                                     <option value="ativado">Ativado</option>
                                     <option value="desativado">Desativado</option>

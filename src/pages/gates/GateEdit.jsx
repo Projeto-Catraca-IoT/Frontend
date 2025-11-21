@@ -173,7 +173,7 @@ function GateEdit() {
                                     name="tag"
                                     value={formData.tag}
                                     onChange={handleChange}
-                                    className="w-full px-3 py-2 bg-bg-secondary text-text-primary border border-line rounded-md focus:outline-none focus:border-purple-secondary"
+                                    className="w-full px-3 py-2 bg-bg-secondary text-text-primary border border-line rounded-md focus:outline-none focus:border-purple-primary"
                                     type="text"
                                     placeholder="Ex: catraca_01"
                                     required
@@ -188,7 +188,7 @@ function GateEdit() {
                                     name="status"
                                     value={formData.status}
                                     onChange={handleChange}
-                                    className="w-full px-3 py-2 bg-bg-secondary text-text-primary border border-line rounded-md focus:outline-none focus:border-purple-secondary"
+                                    className="w-full px-3 py-2 bg-bg-secondary text-text-primary border border-line rounded-md focus:outline-none focus:border-purple-primary"
                                 >
                                     <option value="ativado">Ativado</option>
                                     <option value="desativado">Desativado</option>
@@ -231,7 +231,7 @@ function GateEdit() {
 
                 {/* Modal de Confirmação */}
                 {showDeleteModal && (
-                    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+                    <div className="fixed inset-0 bg-black/40 backdrop-blur-sm flex items-center justify-center z-50">
                         <div className="bg-bg-secondary border border-line rounded-lg p-6 max-w-md w-full mx-4">
                             <h3 className="text-xl font-bold text-text-primary mb-2">
                                 Confirmar Exclusão

@@ -70,7 +70,7 @@ function LocaleCreate() {
                         <form className="flex flex-col gap-4" onSubmit={handleSubmit}>
                             <input
                                 ref={nameRef}
-                                className="w-full px-3 py-2 bg-bg-secondary text-text-primary border border-line rounded-md focus:outline-none focus:border-purple-secondary"
+                                className="w-full px-3 py-2 bg-bg-secondary text-text-primary border border-line rounded-md focus:outline-none focus:border-purple-primary"
                                 type="text"
                                 placeholder="Nome do local"
                                 required
@@ -78,7 +78,7 @@ function LocaleCreate() {
 
                             <input
                                 ref={addressRef}
-                                className="w-full px-3 py-2 bg-bg-secondary text-text-primary border border-line rounded-md focus:outline-none focus:border-purple-secondary"
+                                className="w-full px-3 py-2 bg-bg-secondary text-text-primary border border-line rounded-md focus:outline-none focus:border-purple-primary"
                                 type="text"
                                 placeholder="Endereço"
                                 required
@@ -86,7 +86,7 @@ function LocaleCreate() {
 
                             <input
                                 ref={maxPeopleRef}
-                                className="w-full px-3 py-2 bg-bg-secondary text-text-primary border border-line rounded-md focus:outline-none focus:border-purple-secondary"
+                                className="w-full px-3 py-2 bg-bg-secondary text-text-primary border border-line rounded-md focus:outline-none focus:border-purple-primary"
                                 type="number"
                                 placeholder="Capacidade máxima de pessoas"
                                 min="1"
@@ -95,7 +95,7 @@ function LocaleCreate() {
 
                             <textarea
                                 ref={descriptionRef}
-                                className="w-full px-3 py-2 bg-bg-secondary text-text-primary border border-line rounded-md focus:outline-none focus:border-purple-secondary resize-none"
+                                className="w-full px-3 py-2 bg-bg-secondary text-text-primary border border-line rounded-md focus:outline-none focus:border-purple-primary resize-none"
                                 placeholder="Descrição (Opcional)"
                                 rows="3"
                             />
