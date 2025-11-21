@@ -69,103 +69,64 @@ function GateCreate() {
     }
 
     return (
-        <Layout noWrapper>
+        <Layout>
+            <div className="mt-10 flex items-center justify-center">
+                <div className="max-w-md w-full mx-4">
+                    <div className="bg-bg-secondary p-8 rounded-lg border border-line">
+                        <h2 className="text-2xl font-bold mb-4 text-center text-text-primary">
+                            Cadastrar Catraca
+                        </h2>
 
-  <div className="mt-12 flex items-center justify-center">
-    <div className="max-w-md w-full mx-4">
+                        <form className="flex flex-col gap-4" onSubmit={handleSubmit}>
+                            <div>
+                                <label className="text-text-secondary text-sm font-medium mb-1 block">
+                                    Identificador da Catraca
+                                </label>
+                                <input
+                                    ref={tagRef}
+                                    className="w-full px-3 py-2 bg-bg-secondary text-text-primary border border-line rounded-md focus:outline-none focus:border-purple-secondary"
+                                    type="text"
+                                    placeholder="Ex: catraca_01"
+                                    required
+                                />
+                            </div>
 
-      {/* CARD */}
-      <div className="bg-bg-secondary p-8 rounded-2xl border border-line shadow-md shadow-black/5 hover:shadow-xl transition">
-        
-        {/* TÍTULO */}
-        <h2 className="text-3xl font-extrabold mb-6 text-center text-text-primary tracking-wide">
-          Cadastrar Catraca
-        </h2>
+                            <div>
+                                <label className="text-text-secondary text-sm font-medium mb-1 block">
+                                    Status
+                                </label>
+                                <select
+                                    value={status}
+                                    onChange={(e) => setStatus(e.target.value)}
+                                    className="w-full px-3 py-2 bg-bg-secondary text-text-primary border border-line rounded-md focus:outline-none focus:border-purple-secondary"
+                                >
+                                    <option value="ativado">Ativado</option>
+                                    <option value="desativado">Desativado</option>
+                                </select>
+                            </div>
 
-        {/* FORM */}
-        <form className="flex flex-col gap-5" onSubmit={handleSubmit}>
-
-          {/* IDENTIFICADOR */}
-          <div>
-            <label className="text-text-primary text-sm font-semibold mb-1 block">
-              Identificador da Catraca
-            </label>
-            <input
-              ref={tagRef}
-              className="
-                w-full px-4 py-3 rounded-lg 
-                bg-bg-secondary text-text-primary 
-                border border-line 
-                focus:outline-none 
-                focus:border-purple-primary 
-                focus:ring-2 focus:ring-purple-secondary/40
-                placeholder:text-text-secondary
-              "
-              type="text"
-              placeholder="Ex: catraca_01"
-              required
-            />
-          </div>
-
-          {/* STATUS */}
-          <div>
-            <label className="text-text-primary text-sm font-semibold mb-1 block">
-              Status
-            </label>
-            <select
-              value={status}
-              onChange={(e) => setStatus(e.target.value)}
-              className="
-                w-full px-4 py-3 rounded-lg
-                bg-bg-secondary text-text-primary
-                border border-line
-                focus:outline-none 
-                focus:border-purple-primary 
-                focus:ring-2 focus:ring-purple-secondary/40
-              "
-            >
-              <option value="ativado">Ativado</option>
-              <option value="desativado">Desativado</option>
-            </select>
-          </div>
-
-          {/* BOTOES */}
-          <div className="flex gap-3 pt-2">
-            
-            {/* BOTÃO CADASTRAR */}
-            <button
-              type="submit"
-              disabled={loading}
-              className="
-                btn-green flex-1
-              "
-            >
-              {loading ? "Cadastrando..." : "Cadastrar"}
-            </button>
-
-            {/* BOTÃO CANCELAR */}
-            <button
-              type="button"
-              disabled={loading}
-              onClick={() => navigate(`/locale/${locationId}`)}
-              className="
-                flex-1 py-3 rounded-lg font-semibold
-                bg-bg-secondary border border-line text-text-secondary
-                hover:bg-bg-secondary-hover hover:text-text-primary
-                transition
-                disabled:opacity-50
-              "
-            >
-              Cancelar
-            </button>
-          </div>
-
-        </form>
-      </div>
-    </div>
-  </div>
-</Layout>
-
+                            <div className="flex gap-2 mt-2">
+                                <button
+                                    type="submit"
+                                    disabled={loading}
+                                    className="w-full bg-purple-primary text-white py-2 px-4 rounded-md cursor-pointer hover:bg-purple-primary-hover disabled:opacity-50 disabled:cursor-not-allowed"
+                                >
+                                    {loading ? 'Cadastrando...' : 'Cadastrar'}
+                                </button>
+                                <button
+                                    type="button"
+                                    disabled={loading}
+                                    className="w-full bg-bg-secondary border border-line text-red-400 py-2 px-4 rounded-md cursor-pointer hover:bg-bg-secondary-hover disabled:opacity-50"
+                                    onClick={() => navigate(`/locale/${locationId}`)}
+                                >
+                                    Cancelar
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </Layout>
     )
 }
 
