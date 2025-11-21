@@ -26,11 +26,7 @@ function List() {
         }
       })
 
-      if (data && data.data && data.data.length > 0) {
-        setLocations(data.data)
-      } else {
-        setLocations([])
-      }
+      setLocations(data?.data ?? [])
     } catch (error) {
       if (error.response?.status === 401) {
         logout()
@@ -56,72 +52,63 @@ function List() {
   }
 
   return (
-    <div className="flex flex-col items-start justify-start mt-1 p-1 rounded">
+    <div className="flex flex-col items-start justify-start mt-1 p-2 rounded w-full">
+
       {locations.length > 0 ? (
         <>
+          {/* HEADER */}
           <div className="flex w-full justify-between items-center mb-4">
-            <h2 className="text-xl font-semibold text-text-primary">Seus locais cadastrados</h2>
+            <h2 className="header-strong">
+              Seus locais cadastrados
+            </h2>
+
             <button
-              className="bg-bg-secondary border border-line hover:bg-bg-secondary-hover px-4 py-2 rounded-lg text-purple-primary transition-all cursor-pointer font-medium"
+              className="btn-green"
               onClick={() => navigate("/locale/create")}
             >
               Cadastrar Local
             </button>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+          {/* GRID CARDS */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 w-full">
             {locations.map((location) => (
               <div
                 key={location.id}
-                className="bg-bg-secondary border border-line rounded-lg hover:bg-bg-secondary-hover hover:border-purple-primary cursor-pointer transition-all p-4"
+                className="card-modern"
                 onClick={() => navigate(`/locale/${location.id}`)}
               >
-                <div className="flex flex-col h-full">
-                  <div className="flex-1">
-                    <h3 className="text-text-primary font-semibold text-lg mb-2 truncate">
-                      {location.name}
-                    </h3>
+                {/* TÍTULO */}
+                <h3 className="text-text-primary font-bold text-xl mb-2 truncate">
+                  {location.name}
+                </h3>
 
-                    {location.description && (
-                      <p className="text-text-secondary text-sm mb-3 line-clamp-2">
-                        {location.description}
-                      </p>
-                    )}
-                  </div>
+                {/* DESCRIÇÃO */}
+                {location.description && (
+                  <p className="text-text-secondary text-sm mb-4 line-clamp-3 leading-relaxed">
+                    {location.description}
+                  </p>
+                )}
 
-                  <div className="flex items-center justify-between pt-3 border-t border-line">
-                    <div className="flex items-center gap-2">
-                      <svg
-                        className="w-5 h-5 text-purple-primary"
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth={2}
-                          d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"
-                        />
-                      </svg>
-                      <span className="text-text-secondary text-sm">
-                        Capacidade
-                      </span>
-                    </div>
-                    <span className="bg-purple-secondary text-text-primary px-3 py-1 rounded-full text-sm font-semibold">
-                      {location.max_people}
-                    </span>
-                  </div>
+                {/* CAPACIDADE */}
+                <div className="flex justify-between items-center mt-auto pt-4 border-t border-line">
+                  <span className="text-text-secondary text-sm">Capacidade</span>
+                  <span className="bg-purple-secondary text-white px-4 py-1 rounded-full font-semibold">
+                    {location.max_people}
+                  </span>
                 </div>
               </div>
             ))}
           </div>
         </>
       ) : (
-        <div className="flex w-full justify-between gap-1 items-center m-2">
-          <p className="text-text-secondary">Você não possui locais cadastrados</p>
+        <div className="flex w-full justify-between gap-2 items-center mt-2">
+          <p className="text-text-secondary">
+            Você não possui locais cadastrados.
+          </p>
+
           <button
-            className="bg-bg-secondary border border-line hover:bg-bg-secondary-hover px-2 py-1 rounded-lg text-purple-primary transition-all cursor-pointer font-medium"
+            className="btn-green"
             onClick={() => navigate("/locale/create")}
           >
             Cadastrar Local

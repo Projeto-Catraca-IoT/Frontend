@@ -17,26 +17,26 @@ export const AuthProvider = ({ children }) => {
 
   useEffect(() => {
     const token = localStorage.getItem('token')
-    
+
     if (token) {
       setIsAuthenticated(true)
     } else {
       setIsAuthenticated(false)
     }
-    
+
     setLoading(false)
   }, [])
 
   const login = (token) => {
     localStorage.setItem('token', token)
     setIsAuthenticated(true)
-    toast.success("Logged in successfully")
+    toast.success("Login feito com sucesso!")
   }
 
   const logout = () => {
     localStorage.removeItem('token')
     setIsAuthenticated(false)
-    toast.info("Logged out")
+    toast.info("Até mais!")
   }
 
   const getToken = () => {
