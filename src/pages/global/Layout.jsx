@@ -26,7 +26,7 @@ function Layout({ children }) {
                 {children}
             </main>
             <div className="text-text-secondary text-center pb-4">
-                <p className="text-sm">Desenvolvido por <a className="underline" target="_blank" href="https://github.com/ViniciusCassemira">equipe Smart Gate</a></p>
+                <p className="text-sm">Desenvolvido por <a className="underline" target="_blank" href="https://github.com/Projeto-Catraca-IoT">equipe Smart Gate</a></p>
             </div>
         </div>
     )
