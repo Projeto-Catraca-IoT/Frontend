@@ -5,11 +5,11 @@ ENV VITE_API_URL=http://localhost:3000
 WORKDIR /app
 
 COPY package*.json ./
-RUN pnpm install
+RUN npm install
 
 COPY . .
 
-RUN pnpm run build
+RUN npm run build
 FROM nginx:alpine
 
 RUN rm -rf /usr/share/nginx/html/*
