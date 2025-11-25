@@ -13,7 +13,6 @@ function List() {
     try {
       setLoading(true)
       const token = getToken()
-
       if (!token) {
         logout()
         navigate('/login')
@@ -56,7 +55,7 @@ function List() {
   }
 
   return (
-    <div className="flex flex-col items-start justify-start mt-1 p-1 rounded">
+    <div className="flex flex-col items-start justify-start mt-1 p-1 rounded w-full">
       {locations.length > 0 ? (
         <>
           <div className="flex w-full justify-between items-center mb-4">
@@ -68,8 +67,7 @@ function List() {
               Cadastrar Local
             </button>
           </div>
-
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 w-full">
             {locations.map((location) => (
               <div
                 key={location.id}
@@ -81,14 +79,12 @@ function List() {
                     <h3 className="text-text-primary font-semibold text-lg mb-2 truncate">
                       {location.name}
                     </h3>
-
                     {location.description && (
                       <p className="text-text-secondary text-sm mb-3 line-clamp-2">
                         {location.description}
                       </p>
                     )}
                   </div>
-
                   <div className="flex items-center justify-between pt-3 border-t border-line gap-2">
                     <div className="flex items-center gap-2">
                       <span className="text-text-secondary text-sm">
